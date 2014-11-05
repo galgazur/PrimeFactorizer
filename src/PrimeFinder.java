@@ -2,13 +2,14 @@
 public class PrimeFinder {
 	
 	private static final int PRIME_GUESS_THRESHOLD = 1000;
+	private long[] primes;
 	
 	/**
-	 * Find primes smaller than this number
+	 * Find primes smaller than this bound
 	 * @param bound
 	 * @return
 	 */
-	public long[] findPrimes(long bound){
+	public void findPrimes(long bound){
 		long[] results = new long[Integer.MAX_VALUE-5];
 		int resultPointer = 0;
 		
@@ -20,7 +21,18 @@ public class PrimeFinder {
 			}
 		}
 		
-		return results;
+		primes = new long[resultPointer];
+		for (int i = 0; i < resultPointer; i++) {
+			primes[i] = results[i];
+		}
+	}
+	
+	/**
+	 * return stored primes list
+	 * @return
+	 */
+	public long[] getPrimes(){
+		return primes;
 	}
 	
 	public boolean isPrime(long primeCandidate){
@@ -39,7 +51,4 @@ public class PrimeFinder {
 		return true;
 	}
 	
-	public boolean isProbablePrime(BigInteger primeCandidate){
-		
-	}
 }

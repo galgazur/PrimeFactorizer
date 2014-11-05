@@ -18,17 +18,22 @@ public class MainClass {
 		BigInteger andreasBase = new BigInteger(andreas);
 		BigInteger niklasBase = new BigInteger(niklas);
 		
-		Pollard pollard = new Pollard();
 		QuadraticSieve qSieve = new QuadraticSieve();
 		
+		PrimeFinder p = new PrimeFinder();
+		BigInteger temp = null;
 		String result = "";
+		
 		
 		for(int i = 1; i<=100; i++){
 			for (int j = 0; j < 2; j++) {
-				
-				
-				
-				result = "";
+				if(j==0){
+					temp = andreasBase.add(new BigInteger(""+i));
+				}else{
+					temp = niklasBase.add(new BigInteger(""+i));
+				}
+				 
+				result = qSieve.factorize(p,temp);
 				
 				Logger.log(result);	
 			}
