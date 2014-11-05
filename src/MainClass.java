@@ -1,4 +1,7 @@
 import java.math.BigInteger;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 
 
 public class MainClass {
@@ -24,6 +27,10 @@ public class MainClass {
 		BigInteger temp = null;
 		String result = "";
 		
+		DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd_HH.mm.ss");
+		Date date = new Date();
+		System.out.println(); //2014/08/06 15:59:48
+		String time = dateFormat.format(date);
 		
 		for(int i = 1; i<=100; i++){
 			for (int j = 0; j < 2; j++) {
@@ -35,7 +42,7 @@ public class MainClass {
 				 
 				result = qSieve.factorize(p,temp);
 				
-				Logger.log(result);	
+				Logger.log(temp.toString(), result, time);	
 			}
 		}
 		

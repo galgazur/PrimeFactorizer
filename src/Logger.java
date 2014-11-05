@@ -1,26 +1,31 @@
-import java.io.FileNotFoundException;
+import java.io.BufferedWriter;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.io.PrintWriter;
-import java.io.UnsupportedEncodingException;
+
+
 
 
 public class Logger {
-	public static void log(String str){
+	public static void log(String N, String str, String name){
 		String[] rows = str.split("\n");
-		PrintWriter writer = null;
+		
 		try {
-			writer = new PrintWriter("the-file-name.txt", "UTF-8");
-		} catch (FileNotFoundException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} catch (UnsupportedEncodingException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			PrintWriter out = new PrintWriter(new BufferedWriter(new FileWriter("factorization-" + name + ".txt", true)));
+
+			out.println("Prime factorization of N: " + N);
+			out.println("--------------------------------------");
+			for (int i = 0; i < rows.length; i++) {
+				out.println(rows[i]);
+			}
+			out.println("");
+			out.println("");
+			
+			out.close();
+		}catch (IOException e) {
+		    //exception handling left as an exercise for the reader
 		}
 		
-		for (int i = 0; i < rows.length; i++) {
-			writer.println(rows[i]);
-		}
 		
-		writer.close();
 	}
 }
