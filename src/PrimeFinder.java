@@ -3,6 +3,7 @@ public class PrimeFinder {
 	
 	private static final int PRIME_GUESS_THRESHOLD = 1000;
 	private long[] primes;
+	private long previousbound;
 	
 	/**
 	 * Find primes smaller than this bound
@@ -10,6 +11,7 @@ public class PrimeFinder {
 	 * @return
 	 */
 	public void findPrimes(long bound){
+		if(bound<)
 		long[] results = new long[Integer.MAX_VALUE-5];
 		int resultPointer = 0;
 		
