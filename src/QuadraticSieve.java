@@ -10,8 +10,8 @@ public class QuadraticSieve {
 	 */
 	public String factorize(long SmoothnessBound, PrimeFinder primes, BigInteger N){
 		
-		
-		long[] primeArray = PrimeFinder.getPrimes(SmoothnessBound);
+		primes.findPrimes(SmoothnessBound);
+		long[] primeArray = primes.getPrimes();
 		long[] factorBase = getFactorBase(primes, N);
 		
 		BigInteger m = sqrt(N);

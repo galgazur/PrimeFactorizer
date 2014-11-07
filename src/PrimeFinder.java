@@ -11,21 +11,23 @@ public class PrimeFinder {
 	 * @return
 	 */
 	public void findPrimes(long bound){
-		if(bound<)
-		long[] results = new long[Integer.MAX_VALUE-5];
-		int resultPointer = 0;
-		
-		for (long i = 2; i < bound; i++) {
-			if(isPrime(i)){
-				results[resultPointer] = i;
-				resultPointer++;
-				break;
+		if(bound>previousbound){
+			long[] results = new long[Integer.MAX_VALUE-5];
+			int resultPointer = 0;
+			
+			for (long i = 2; i < bound; i++) {
+				if(isPrime(i)){
+					results[resultPointer] = i;
+					resultPointer++;
+					break;
+				}
 			}
-		}
-		
-		primes = new long[resultPointer];
-		for (int i = 0; i < resultPointer; i++) {
-			primes[i] = results[i];
+			
+			primes = new long[resultPointer];
+			for (int i = 0; i < resultPointer; i++) {
+				primes[i] = results[i];
+			}
+			previousbound = bound;
 		}
 	}
 	
