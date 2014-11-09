@@ -13,7 +13,7 @@ public class QuadraticSieve {
 			BigInteger N) {
 
 		primes.findPrimes(SmoothnessBound);
-		long[] primeArray = primes.getPrimes();
+		BigInteger[] primeArray = primes.getPrimes();
 		long[] factorBase = getFactorBase(primes, N);
 
 		BigInteger m = Calc.sqrt(N);

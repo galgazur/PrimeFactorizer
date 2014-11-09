@@ -19,6 +19,7 @@ public class Pollard {
 
 	public BigInteger pollardRho(BigInteger N) {
 		BigInteger ret = null;
+		
 
 		BigInteger X = generateRandomBigInteger(N);
 

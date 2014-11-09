@@ -1,58 +1,79 @@
+import java.math.BigInteger;
+import java.util.ArrayList;
 
 public class PrimeFinder {
-	
-	private static final int PRIME_GUESS_THRESHOLD = 1000;
-	private long[] primes;
-	private long previousbound;
-	
+
+	private static final long PRIME_GUESS_THRESHOLD = 1000;
+	private BigInteger[] primes;
+	private BigInteger previousbound;
+
+	private final int CERTAINTY = 100;
+
 	/**
 	 * Find primes smaller than this bound
+	 * 
 	 * @param bound
 	 * @return
 	 */
-	public void findPrimes(long bound){
-		if(bound>previousbound){
-			long[] results = new long[Integer.MAX_VALUE-5];
-			int resultPointer = 0;
+	public void findPrimes(BigInteger bound){
+		if(bound.compareTo(previousbound) > 0){
+			ArrayList<BigInteger> tmpArr = new ArrayList<BigInteger>();
+//			BigInteger[] results = new BigInteger[Integer.MAX_VALUE-5];
+//			long[] results = new long[Integer.MAX_VALUE-5];
+//			int resultPointer = 0;
 			
-			for (long i = 2; i < bound; i++) {
+
+			
+			for (BigInteger i = new BigInteger("2"); i.compareTo(bound) <= 0; i = i.subtract(BigInteger.ONE)) {;
 				if(isPrime(i)){
-					results[resultPointer] = i;
-					resultPointer++;
-					break;
+					tmpArr.add(i);
+//					results[resultPointer] = i;
+//					resultPointer++;
+//					break;
 				}
 			}
 			
-			primes = new long[resultPointer];
-			for (int i = 0; i < resultPointer; i++) {
-				primes[i] = results[i];
-			}
+			primes = tmpArr.toArray(new BigInteger[tmpArr.size()]);
+			
+//			primes = new long[resultPointer];
+//			for (int i = 0; i < resultPointer; i++) {
+//				primes[i] = results[i];
+//			}
 			previousbound = bound;
 		}
 	}
-	
+
 	/**
 	 * return stored primes list
+	 * 
 	 * @return
 	 */
-	public long[] getPrimes(){
+	public BigInteger[] getPrimes() {
 		return primes;
 	}
-	
-	public boolean isPrime(long primeCandidate){
-		if(primeCandidate>PRIME_GUESS_THRESHOLD){
-			return isProbablePrime(primeCandidate);	
-		}else{
+
+	public boolean isPrime(BigInteger primeCandidate) {
+		if (primeCandidate.compareTo(new BigInteger("" + PRIME_GUESS_THRESHOLD)) > 0) {
+			return isProbablePrime(primeCandidate);
+		} else {
 			return isDefinitePrime(primeCandidate);
 		}
 	}
-	
-	private boolean isProbablePrime(long primeCandidate){
+
+	// miller-rabin
+	private boolean isProbablePrime(BigInteger primeCandidate) {
+		return primeCandidate.isProbablePrime(CERTAINTY);
+	}
+
+	private boolean isDefinitePrime(BigInteger primeCandidate) {
+		// trial division
+		for (long i = 2; i <= PRIME_GUESS_THRESHOLD; i++) {
+			BigInteger rest = primeCandidate.divideAndRemainder(new BigInteger("" + i))[1];
+			if (rest.compareTo(BigInteger.ZERO) == 0) {
+				return false;
+			}
+		}
 		return true;
 	}
-	
-	private boolean isDefinitePrime(long primeCandidate){
-		return true;
-	}
-	
+
 }
