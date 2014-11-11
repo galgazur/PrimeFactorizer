@@ -1,4 +1,5 @@
 import java.math.BigInteger;
+import java.util.Random;
 
 public class Calc {
 
@@ -44,6 +45,16 @@ public class Calc {
 
 	public static BigInteger square(BigInteger N) {
 		return N.multiply(N);
+	}
+
+	public static BigInteger generateRandomBigInteger(BigInteger N) {
+		BigInteger X = null;
+		// runs less than two iterations on average
+		do {
+			X = new BigInteger(N.bitLength(), new Random());
+		} while (X.compareTo(N) >= 0);
+
+		return X;
 	}
 
 }

@@ -1,5 +1,4 @@
 import java.math.BigInteger;
-import java.util.Random;
 
 public class Pollard {
 
@@ -19,9 +18,8 @@ public class Pollard {
 
 	public BigInteger pollardRho(BigInteger N) {
 		BigInteger ret = null;
-		
 
-		BigInteger X = generateRandomBigInteger(N);
+		BigInteger X = Calc.generateRandomBigInteger(N);
 
 		BigInteger fx = null;
 		BigInteger gcd = null;
@@ -38,7 +36,7 @@ public class Pollard {
 				break;
 			} else if (gcd.compareTo(N) == 0) {
 				// re-initiate random X
-				X = generateRandomBigInteger(N);
+				X = Calc.generateRandomBigInteger(N);
 			} else {
 				X = fx;
 			}
@@ -46,16 +44,6 @@ public class Pollard {
 		}
 
 		return ret;
-	}
-
-	private BigInteger generateRandomBigInteger(BigInteger N) {
-		BigInteger X = null;
-		// runs less than two iterations on average
-		do {
-			X = new BigInteger(N.bitLength(), new Random());
-		} while (X.compareTo(N) >= 0);
-
-		return X;
 	}
 
 }
