@@ -89,9 +89,9 @@ public class QuadraticSieve {
 		long[] h = new long[40];
 		
 		factorBase.add((long)-1);
-		for(long a : primes){
-			if(isQuadraticResidue(a, N)){
-				factorBase.add(a);
+		for(long p : primes){
+			if(isQuadraticResidue(p, N)){
+				factorBase.add(p);
 			}
 		}
 		long[] result = convertLongs(factorBase);
@@ -104,9 +104,10 @@ public class QuadraticSieve {
 	 * @param N
 	 * @return
 	 */
-	private boolean isQuadraticResidue(long a, long p){		//BigInteger N){
+	private boolean isQuadraticResidue(long p, BigInteger N){		//BigInteger N){
+		long q = N.mod(new BigInteger(p+"")).longValue();
 		for (long i = 0; i < p; i++) {
-			if((i^2)%p==a){
+			if((i^2)%p==q){
 				return true;
 			}
 		};
