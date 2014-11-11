@@ -4,19 +4,20 @@ public class Pollard {
 
 	private static BigInteger ONE = new BigInteger("1");
 
-	private Pollard() {
-		BigInteger N = new BigInteger("24");
+	public Pollard() {
+		// BigInteger N = new BigInteger("24");
 
-		BigInteger divisor = pollardRho(N);
-		System.out.println("" + divisor);// gcd.toString();
+		// BigInteger divisor = pollardRho();
+		// System.out.println("" + divisor);// gcd.toString();
 		// System.out.println(new String(gcd.toByteArray()));
 	}
 
-	public static void main(String[] args) {
-		new Pollard();
-	}
+	// public static void main(String[] args) {
+	// new Pollard();
+	// }
 
-	public BigInteger pollardRho(BigInteger N) {
+	public Tuple pollardRho(Tuple tuple) {
+		BigInteger N = tuple.getNumber();
 		BigInteger ret = null;
 
 		BigInteger X = Calc.generateRandomBigInteger(N);
@@ -43,7 +44,13 @@ public class Pollard {
 
 		}
 
-		return ret;
+		BigInteger[] dividerAndResidue = N.divideAndRemainder(ret);
+
+		tuple.setNumber(dividerAndResidue[0]);
+
+		tuple.addFactor(ret);
+
+		return tuple;
 	}
 
 }

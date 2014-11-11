@@ -1,11 +1,14 @@
 import java.math.BigInteger;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
 
 public class MainClass {
 
 	private final int ZERO_AMOUNT = 1;
+
+	private final int trialDivisionMax = 10000;
 
 	public MainClass() {
 		String andreas = "9103090198";
@@ -38,11 +41,28 @@ public class MainClass {
 					temp = niklasBase.add(new BigInteger("" + i));
 				}
 
-				result = qSieve.factorize(p, temp);
+				// result = qSieve.factorize(p, temp);
 
 				Logger.log(temp.toString(), result, time);
 			}
 		}
+	}
+
+	private void factor(BigInteger N) {
+		Tuple tuple = new Tuple(N, new ArrayList<String>());
+
+		// ArrayList<String> factors = new ArrayList<String>();
+
+		// first try trial division
+		SmallFactorizer smallFactors = new SmallFactorizer();
+
+		smallFactors.trialDivision(tuple, trialDivisionMax);
+
+		// pollard-rho
+		Pollard pollard = new Pollard();
+
+		pollard.pollardRho(tuple);
+
 	}
 
 	public static void main(String[] args) {
