@@ -9,6 +9,8 @@ public class QuadraticSieve {
 	long[] factorBase = null;
 	public static int linearIndependenceLimit = 5; 
 	long bitCombo = 0;
+	BigInteger m;
+	BigInteger N;
 	
 	/**
 	 * returns a string representation for all primes and the amount of occurrences
@@ -16,41 +18,44 @@ public class QuadraticSieve {
 	 */
 	public String factorize(long SmoothnessBound, PrimeFinder firstXprimes, BigInteger N){
 		smoothness = new SmoothnessChecker();
+		this.N = N;
 		
 		firstXprimes.findPrimes(SmoothnessBound);
 		long[] primeArray = firstXprimes.getPrimes();
 		factorBase = getFactorBase(primeArray, N);
 		
-		BigInteger m = sqrt(N);
+		m = sqrt(N);
 		
 		
 		long[][] qxEVectorsArray = new long[2*factorBase.length][]; //contains e-vectors for each q(x)
+		
 		int qxPointer = 0;
 		
 		for(long x = 0; x<Long.MAX_VALUE; x++){
 			//try different x 
 			
-			long[] factorization = smoothnessAndExponentVectors(x, factorBase);
+			long[] factorization = smoothnessAndExponentVectors(x, factorBase);	//first byte is not part of the vector, it contains the x
 			if(factorization!=null){
 				qxEVectorsArray[qxPointer] = factorization;
+				qxEVectorsArray[qxPointer][0] = x;
 				qxPointer++;
 			}
 		}
 		
-		BigInteger xAns = null;
-		BigInteger yAns = null;
+		BigInteger aAns = null;
+		BigInteger bAns = null;
 		
-		bitCombo = (long)Math.pow((double)2, (double)qxEVectorsArray.length);
+		bitCombo = (long)Math.pow((double)2, (double)qxEVectorsArray.length-1);
 		long tLong = findTCombination(qxEVectorsArray, 0);
-		boolean[] T = makeValidCombo(tLong, qxEVectorsArray.length);
+		boolean[] T = makeValidCombo(tLong, qxEVectorsArray.length-1);
 
 		
 		while(tLong < bitCombo){
 			
-			xAns = getX(T);
-			yAns = getY(T);
+			aAns = getA(T, qxEVectorsArray);
+			bAns = getB(T, qxEVectorsArray);
 			
-			if( xAns.compareTo(yAns.mod(N))!=0){
+			if( aAns.compareTo(bAns.mod(N))!=0){
 				break;
 			}
 				
@@ -59,11 +64,11 @@ public class QuadraticSieve {
 			return null;
 		}
 		
-		if(xAns==null){
+		if(aAns==null){
 			return null;
 		}else{
 			//MAKE OUR OWN GCD!!!
-			return "" + gcd(xAns.subtract(yAns), N);
+			return "" + gcd(aAns.subtract(bAns), N);
 		}
 	}
 	
@@ -117,18 +122,21 @@ public class QuadraticSieve {
 	/**
 	 * Factorize a given number x and determine if it is smooth with regards to the factorbase.
 	 * return an array of factors if it is, and null if not
-	 * @param x
+	 * @param qX
 	 * @param factorBase
 	 * @return
 	 */
 	private long[] smoothnessAndExponentVectors(long x, long[] factorBase){
-		long[] eVector = new long[factorBase.length];
+		long[] eVector = new long[factorBase.length+1];
 		long factor = 0l;
 		long factorBs = 0l;
-		boolean isSmooth = smoothness.factorizeSmallNumbers(x, factorBase);;
+		
+		long qX = (m.add(new BigInteger(""+x))).pow(2).subtract(N).longValue();
+		
+		boolean isSmooth = smoothness.factorizeSmallNumbers(qX, factorBase);;
 		if(isSmooth){
 			ArrayList<Long> factors = smoothness.getFactors();	// 7 11 13 19 19 19 23 37 47
-			for (int i = 0; i < factorBase.length; i++) {		//5 7 11 13 17 19 23 29 31 47 53
+			for (int i = 1; i < factorBase.length; i++) {		//5 7 11 13 17 19 23 29 31 47 53
 				factor = factors.get(0);
 				factorBs = factors.get(i);
 				
@@ -171,18 +179,18 @@ public class QuadraticSieve {
 	private long findTCombination(long[][] qxFactorArray, long start){
 		boolean isValidCombo = true;
 		long bitSum = 0;
-		for (int j3 = 0; j3 < qxFactorArray.length; j3++) {
+		for (int j3 = 1; j3 < qxFactorArray.length; j3++) {
 			for (long i = start; i < bitCombo; i++) {
 				
 				isValidCombo = true;
 				int isOk = 0; //denotes if the following eVector should be included or if it includes too many eVectors, or includes j3
-				for (int j = 0; j < factorBase.length; j++) {
+				for (int j = 1; j < factorBase.length; j++) {
 					isOk += (i >> j)&1;
 				}
 				
 				boolean x = ((i >> j3)&1)==0;
 				if((isOk<=linearIndependenceLimit)&&(x)){
-					for (int j = 0; j < factorBase.length; j++) {
+					for (int j = 1; j < factorBase.length; j++) {
 						bitSum = qxFactorArray[j3][j];
 						for (int j2 = 0; j2 < qxFactorArray.length; j2++) {
 							if(qxFactorArray[j2][j]>0){
@@ -222,8 +230,15 @@ public class QuadraticSieve {
 	 * @param T
 	 * @return
 	 */
-	private BigInteger getY(boolean[] T){
-		return null;
+	private BigInteger getB(boolean[] T, long[][] qxEVectors){
+		BigInteger product = BigInteger.ZERO;
+		for (int i = 0; i < T.length; i++) {
+			if(T[i]){
+				product = product.multiply(getAi(new BigInteger(qxEVectors[i][0]+"")));
+			}
+		}
+		product = sqrt(product);
+		return product;
 	}
 	
 	/**
@@ -231,10 +246,25 @@ public class QuadraticSieve {
 	 * @param T
 	 * @return
 	 */
-	private BigInteger getX(boolean[] T){
-		return null;
+	private BigInteger getA(boolean[] T, long[][] qxEVectors){
+		BigInteger product = BigInteger.ZERO;
+		for (int i = 0; i < T.length; i++) {
+			if(T[i]){
+				product = product.multiply(getBi(new BigInteger(qxEVectors[i][0]+"")));
+			}
+		}
+		product = product.mod(N);
+		return product;
+	}
+
+	
+	private BigInteger getAi(BigInteger x){
+		return (x.add(m));
 	}
 	
+	private BigInteger getBi(BigInteger x){
+		return (x.add(m).pow(2).subtract(N));
+	}
 	
 	
 	/**
