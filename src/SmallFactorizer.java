@@ -4,6 +4,11 @@ public class SmallFactorizer {
 	StringBuilder smallFactors = null;
 	BigInteger residue = null;
 	long maxNumber = 0;
+	PrimeFinder primeFinder;
+	
+	public SmallFactorizer(PrimeFinder primeFinder) {
+		this.primeFinder = primeFinder;
+	}
 
 	/**
 	 * Trial Division
@@ -11,16 +16,23 @@ public class SmallFactorizer {
 	 * @param N
 	 * @param maxNumber
 	 */
-	public void trialDivision(Tuple tuple, int maxNumber) {
+	public void trialDivision(Tuple tuple) {
 		residue = tuple.getNumber();
 		this.maxNumber = maxNumber;
+		
+		long[] primes = primeFinder.getPrimes();
+		
+		long prime;
+		
+		BigInteger[] divideResidue;
 
-		for (int i = 2; i < maxNumber; i++) {
-			BigInteger[] divideResidue = residue
-					.divideAndRemainder(new BigInteger("" + i));
+		for (int i = 0; i < primes.length; i++) {
+			prime = primes[i];
+			divideResidue = residue
+					.divideAndRemainder(new BigInteger("" + prime));
 			if (divideResidue[1] == BigInteger.ZERO) {
 				residue = divideResidue[0];
-				tuple.addFactor(i);
+				tuple.addFactor(prime);
 				i--;
 			}
 		}

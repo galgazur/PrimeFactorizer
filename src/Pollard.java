@@ -5,6 +5,7 @@ public class Pollard {
 	private static BigInteger ONE = new BigInteger("1");
 
 	public Pollard() {
+
 		// BigInteger N = new BigInteger("24");
 
 		// BigInteger divisor = pollardRho();

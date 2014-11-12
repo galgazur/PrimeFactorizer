@@ -3,9 +3,9 @@ import java.util.ArrayList;
 
 public class PrimeFinder {
 
-	private static final long PRIME_GUESS_THRESHOLD = 1000;
+	private static final long PRIME_GUESS_THRESHOLD = 100000;
 	private long[] primes;
-	private long previousbound = 0;
+	private long previousbound = 2;
 
 	private final int CERTAINTY = 30;
 
@@ -19,7 +19,7 @@ public class PrimeFinder {
 		if (bound > previousbound) {
 			ArrayList<Long> arrayList = new ArrayList<Long>();
 
-			for (long i = 2; i <= bound; i++) {
+			for (long i = previousbound; i <= bound; i++) {
 				if (isPrime(i)) {
 					arrayList.add(i);
 				}
@@ -38,32 +38,6 @@ public class PrimeFinder {
 			previousbound = bound;
 		}
 
-		// if (bound.compareTo(previousbound) > 0) {
-		// ArrayList<BigInteger> tmpArr = new ArrayList<BigInteger>();
-		// // BigInteger[] results = new BigInteger[Integer.MAX_VALUE-5];
-		// // long[] results = new long[Integer.MAX_VALUE-5];
-		// // int resultPointer = 0;
-		//
-		// for (BigInteger i = new BigInteger("2"); i.compareTo(bound) <= 0; i =
-		// i
-		// .subtract(BigInteger.ONE)) {
-		// ;
-		// if (isPrime(i)) {
-		// tmpArr.add(i);
-		// // results[resultPointer] = i;
-		// // resultPointer++;
-		// // break;
-		// }
-		// }
-		//
-		// primes = tmpArr.toArray(new BigInteger[tmpArr.size()]);
-		//
-		// // primes = new long[resultPointer];
-		// // for (int i = 0; i < resultPointer; i++) {
-		// // primes[i] = results[i];
-		// // }
-		// previousbound = bound;
-		// }
 	}
 
 	/**
@@ -89,24 +63,6 @@ public class PrimeFinder {
 
 		return bigInteger.isProbablePrime(CERTAINTY);
 	}
-
-	// // miller-rabin
-	// private boolean isProbablePrime(BigInteger N) {
-	//
-	// // TODO
-	//
-	// if (N.mod(new BigInteger("2")).compareTo(BigInteger.ZERO) > 0) {
-	// return false;
-	// }
-	//
-	// BigInteger a;
-	// for (long i = 2; i <= PRIME_GUESS_THRESHOLD; i++) {
-	// a = Calc.generateRandomBigInteger(N);
-	// }
-	//
-	// return N.isProbablePrime(CERTAINTY);
-	//
-	// }
 
 	private boolean isProbablePrime(BigInteger N) {
 		return N.isProbablePrime(CERTAINTY);

@@ -25,7 +25,7 @@ public class QSHelper {
 		
 		if(primeFinder.isPrime(N)){
 			extractedPrimes.add(N.toString());
-			return new Tuple(BigInteger.ONE, (extractedPrimes));
+			return new Tuple(BigInteger.ONE, (extractedPrimes), primeFinder);
 		}
 		
 		//The main loop
@@ -54,6 +54,6 @@ public class QSHelper {
 			}
 		}while(extractedNumbers.size()==0);	//until we only have prime factors left
 		
-		return new Tuple(BigInteger.ONE, (extractedPrimes));
+		return new Tuple(BigInteger.ONE, (extractedPrimes), primeFinder);
 	}
 }
