@@ -1,5 +1,4 @@
 import java.math.BigInteger;
-import java.math.*;
 import java.util.ArrayList;
 import java.util.Iterator;
 
@@ -16,7 +15,7 @@ public class QuadraticSieve {
 	 * returns a string representation for all primes and the amount of occurrences
 	 * @return
 	 */
-	public String factorize(long SmoothnessBound, PrimeFinder firstXprimes, BigInteger N){
+	public BigInteger factorize(long SmoothnessBound, PrimeFinder firstXprimes, BigInteger N){
 		smoothness = new SmoothnessChecker();
 		this.N = N;
 		
@@ -68,7 +67,7 @@ public class QuadraticSieve {
 			return null;
 		}else{
 			//MAKE OUR OWN GCD!!!
-			return "" + gcd(aAns.subtract(bAns), N);
+			return gcd(aAns.subtract(bAns), N);
 		}
 	}
 	
@@ -91,8 +90,6 @@ public class QuadraticSieve {
 	 */
 	private long[] getFactorBase(long[] primes, BigInteger N){
 		ArrayList<Long> factorBase = new ArrayList<Long>();
-		long[] h = new long[40];
-		
 		factorBase.add((long)-1);
 		for(long p : primes){
 			if(isQuadraticResidue(p, N)){
