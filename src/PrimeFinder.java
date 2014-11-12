@@ -1,3 +1,4 @@
+import java.io.PrintWriter;
 import java.math.BigInteger;
 import java.util.ArrayList;
 
@@ -27,18 +28,41 @@ public class PrimeFinder {
 
 			primes = new long[arrayList.size()];
 
-			// primes = arrayList.toArray(new Long[arrayList.size()]);
-
 			for (int i = 0; i < primes.length; i++) {
 				primes[i] = arrayList.get(i);
 			}
-
-			// primes = arrayList.toArray();
 
 			previousbound = bound;
 		}
 
 	}
+	
+	/*
+	 * Used to build a file with the Integer.MAX_VALUE first primes
+	 */
+	public void findPrimes2(PrintWriter out) {
+		
+			int primes = 0;
+			
+//			long[] primes = new long[Integer.MAX_VALUE];
+
+			for (long i = 2; i <= Long.MAX_VALUE; i++) {
+				if (primes == Integer.MAX_VALUE) {
+					break;
+				}
+				if (isPrime(i)) {
+					
+//					primes[primeIndex] = i;
+					out.println(i);
+//					out.flush();
+					primes++;
+				}
+			}
+
+//			return primes;
+
+		}
+
 
 	/**
 	 * return stored primes list
