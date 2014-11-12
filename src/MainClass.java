@@ -156,8 +156,8 @@ public class MainClass {
 	}
 
 	public static void main(String[] args) {
-//		new MainClass();
-		makePrimeFile();
+		new MainClass();
+//		makePrimeFile();
 		
 
 	}
