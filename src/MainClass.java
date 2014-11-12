@@ -54,7 +54,7 @@ public class MainClass {
 		PrimeFinder primeFinder = new PrimeFinder();
 		primeFinder.findPrimes(trialDivisionMax);
 
-		factor(temp, primeFinder);
+//		factor(temp, primeFinder);
 
 		Logger logger = new Logger();
 
