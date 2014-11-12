@@ -12,15 +12,20 @@ public class MainClass {
 
 	private final int ZERO_AMOUNT = 60;
 
-	private final int trialDivisionMax = 100000000;
+
 	private final int j = 0;
-	
+
 	private int BASE = 0;
-//	private final int trialDivisionMax = 100000;
+
+//	private final int trialDivisionMax = 100000000;
+	 private final int trialDivisionMax = 100000;
 
 	public MainClass() {
 		String andreas = "9204123476";
 		String niklas = "9103090198";
+		
+		String andreasNumber = andreas;
+		String niklasNumber = niklas;
 
 		for (int i = 0; i < ZERO_AMOUNT + j; i++) {
 			andreas += "0";
@@ -42,56 +47,57 @@ public class MainClass {
 		String time = dateFormat.format(date);
 
 		temp = andreasBase.add(new BigInteger("2"));
-		 temp = new BigInteger("91030901982");
+		temp = new BigInteger("91030901982");
 
-		System.out.println(temp.toString());
-		
-		
+//		System.out.println(temp.toString());
+
 		PrimeFinder primeFinder = new PrimeFinder();
 		primeFinder.findPrimes(trialDivisionMax);
-		
+
 		factor(temp, primeFinder);
-		
+
+		Logger logger = new Logger();
+
 		PrintWriter out = null;
 		try {
-			out = new PrintWriter(new BufferedWriter(new FileWriter("factorization-" + time + ".txt", true)));
-			
+			out = new PrintWriter(new BufferedWriter(new FileWriter(
+					"factorization-" + time + ".txt", true)));
+
 			if (BASE == 0) {
-				out.println(andreasBase.toString() + " " + j);
+				out.println(andreasNumber + " " + j);
 			} else {
-				out.println(niklasBase.toString() + " " + j);
+				out.println(niklasNumber + " " + j);
 			}
-			
-			
+
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		
-		
 
-		for (int i = 1; i <= 100; i++) {
-			for (int j = 0; j < 2; j++) {
-				if (j == 0) {
-					temp = andreasBase.add(new BigInteger("" + i));
-				} else {
-					temp = niklasBase.add(new BigInteger("" + i));
-				}
-				
-				Tuple tuple = factor(temp, primeFinder);
+		// for (int i = 1; i <= 100; i++) {
+		// for (int j = 0; j < 2; j++) {
+		// if (j == 0) {
+		// temp = andreasBase.add(new BigInteger("" + i));
+		// } else {
+		// temp = niklasBase.add(new BigInteger("" + i));
+		// }
 
-				// result = qSieve.factorize(p, temp);
+		Tuple tuple = factor(temp, primeFinder);
 
-				Logger.log(tuple, out);
-			}
-		}
+		// result = qSieve.factorize(p, temp);
+
+		logger.log(tuple, out);
+		// }
+		// }
+
+		out.close();
 	}
 
 	private Tuple factor(BigInteger N, PrimeFinder primeFinder) {
 		Tuple tuple = new Tuple(N, new ArrayList<String>(), primeFinder);
 
 		if (tuple.isDone()) {
-			tuple.printFactors();
+//			tuple.printFactors();
 			return tuple;
 		}
 
@@ -111,9 +117,9 @@ public class MainClass {
 
 		}
 
-		if (tuple.isDone()) {
-			tuple.printFactors();
-		}
+//		if (tuple.isDone()) {
+//			tuple.printFactors();
+//		}
 
 		return tuple;
 
