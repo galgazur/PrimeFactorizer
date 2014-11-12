@@ -33,22 +33,27 @@ public class MainClass {
 		System.out.println(); // 2014/08/06 15:59:48
 		String time = dateFormat.format(date);
 
-		for (int i = 1; i <= 100; i++) {
-			for (int j = 0; j < 2; j++) {
-				if (j == 0) {
-					temp = andreasBase.add(new BigInteger("" + i));
-				} else {
-					temp = niklasBase.add(new BigInteger("" + i));
-				}
+		temp = andreasBase.add(new BigInteger("1"));
+		// temp = new BigInteger("14");
 
-				// result = qSieve.factorize(p, temp);
+		Tuple tuple = factor(temp);
 
-				Logger.log(temp.toString(), result, time);
-			}
-		}
+		// for (int i = 1; i <= 100; i++) {
+		// for (int j = 0; j < 2; j++) {
+		// if (j == 0) {
+		// temp = andreasBase.add(new BigInteger("" + i));
+		// } else {
+		// temp = niklasBase.add(new BigInteger("" + i));
+		// }
+		//
+		// // result = qSieve.factorize(p, temp);
+		//
+		// Logger.log(temp.toString(), result, time);
+		// }
+		// }
 	}
 
-	private void factor(BigInteger N) {
+	private Tuple factor(BigInteger N) {
 		Tuple tuple = new Tuple(N, new ArrayList<String>());
 
 		// ArrayList<String> factors = new ArrayList<String>();
@@ -61,7 +66,17 @@ public class MainClass {
 		// pollard-rho
 		Pollard pollard = new Pollard();
 
-		pollard.pollardRho(tuple);
+		while (!tuple.isDone()) {
+
+			pollard.pollardRho(tuple);
+
+		}
+
+		if (tuple.isDone()) {
+			tuple.printFactors();
+		}
+
+		return tuple;
 
 	}
 

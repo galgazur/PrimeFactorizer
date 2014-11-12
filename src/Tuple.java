@@ -31,4 +31,18 @@ public class Tuple {
 		return factors;
 	}
 
+	public void printFactors() {
+		for (int i = 0; i < factors.size(); i++) {
+			System.out.println(factors.get(i));
+		}
+	}
+
+	public boolean isDone() {
+		if (number.compareTo(BigInteger.ONE) == 0) {
+			return true;
+		} else {
+			return false;
+		}
+	}
+
 }
