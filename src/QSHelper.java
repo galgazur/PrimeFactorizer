@@ -20,7 +20,7 @@ public class QSHelper {
 		BigInteger factor1 = null;
 		BigInteger factor2 = null;
 		
-		long B = 0l;
+		long B = 100000000l;
 		
 		
 		if(primeFinder.isPrime(N)){
@@ -32,9 +32,13 @@ public class QSHelper {
 		extractedNumbers.add(N);
 		do{
 			N = extractedNumbers.get(0);
-			B = 100;
-			
-			factor1 = qs.factorize(B, primeFinder, N);
+			do{
+				factor1 = qs.factorize(B, primeFinder, N);
+				if(factor1==null){
+					B = B*2;
+				}
+			}while(factor1==null);
+				
 			factor2 = N.divide(N);
 			
 			if(primeFinder.isPrime(factor1)){
