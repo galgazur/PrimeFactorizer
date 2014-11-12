@@ -14,7 +14,7 @@ public class MainClass {
 
 	private final int j = 0;
 
-	private int BASE = 0;
+	private int BASE = 1;
 
 	// private final int trialDivisionMax = 100000000;
 	private final int trialDivisionMax = Integer.MAX_VALUE;
@@ -70,8 +70,8 @@ public class MainClass {
 		// System.out.println(); // 2014/08/06 15:59:48
 		String time = dateFormat.format(date);
 
-		temp = andreasBase.add(new BigInteger("2"));
-		temp = new BigInteger("9103090198011");
+//		temp = andreasBase.add(new BigInteger("2"));
+//		temp = new BigInteger("9103090198011");
 
 		// System.out.println(temp.toString());
 
@@ -100,25 +100,15 @@ public class MainClass {
 			e.printStackTrace();
 		}
 
-		// long start = System.currentTimeMillis();
 
 		Tuple tuple;
-		for (int i = 0; i < 10; i++) {
+		for (int i = 0; i < 100; i++) {
 			temp = temp.add(BigInteger.ONE);
 			tuple = factor(temp, primeFinder);
 			logger.log(tuple, out);
 			out.flush();
 		}
 
-		// long elapsed = System.currentTimeMillis() - start;
-
-		// float elapsedMin = elapsed/(60 * 1000F);
-
-		// System.out.println(elapsedMin);
-
-		// long tmp = (long) elapsedMin;
-
-		// long difference = elapsedMin - (float)tmp;
 
 		out.close();
 	}
