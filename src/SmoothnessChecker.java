@@ -10,15 +10,25 @@ public class SmoothnessChecker {
 	 * @param maxNumber
 	 */
 	public boolean factorizeSmallNumbers(long N, long[] primes){
+		factors.clear();
 		residue = N;
-		
-		for (int i = 2; i < primes.length; i++) {
+		if(residue<0){
+			factors.add(-1l);
+			residue = -residue;
+		}
+		for (int i = 1; i < primes.length; i++) {
 			long divideResidue = residue % primes[i];
+			
+			if(primes[i]>residue){
+				break;
+			}
+			
 			if(divideResidue==0){
 				residue = residue / primes[i];
 				factors.add(primes[i]);
 				i--;
 			}
+			
 		}
 		return (residue==1);
 	}

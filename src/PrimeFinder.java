@@ -3,7 +3,7 @@ import java.util.ArrayList;
 
 public class PrimeFinder {
 
-	private static final long PRIME_GUESS_THRESHOLD = 100000;
+	private static final long PRIME_GUESS_THRESHOLD = 1;
 	private long[] primes;
 	private long previousbound = 2;
 
