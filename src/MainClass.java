@@ -205,12 +205,11 @@ public class MainClass {
 		if (tuple.isDone()) {
 			return tuple;
 		} else {
-			return null;
-			// System.out.println("Initiating quadratic sieve");
-			// QSHelper qsHelper = new QSHelper(primeFinder);
-			// Tuple qsTuple = qsHelper.factorize(tuple.getNumber());
-			//
-			// tuple.mergeCohesiveTuples(qsTuple);
+			 System.out.println("Initiating quadratic sieve");
+			 QSHelper qsHelper = new QSHelper(primeFinder);
+			 Tuple qsTuple = qsHelper.factorize(tuple.getNumber());
+			
+			 tuple.mergeCohesiveTuples(qsTuple);
 		}
 
 		// return tuple;
