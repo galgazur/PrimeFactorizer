@@ -38,9 +38,6 @@ public class MainClass {
 	}
 
 	public MainClass(String personNumber) {
-		// define person number
-		// String personNumber = "9204123476";
-		// String personNumber = "9103090198";
 
 		// construct bigInteger with trailing zeros
 		String bigNum = personNumber;
