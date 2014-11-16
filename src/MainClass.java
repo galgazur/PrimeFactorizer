@@ -13,7 +13,7 @@ public class MainClass {
 
 	private final int j = 0;
 
-	public static final int TRIAL_DIVISION_PRIME_AMOUNT = 1000000;
+	public static final int TRIAL_DIVISION_PRIME_AMOUNT = 10000000;
 
 	private final int POLLARD_MAX_MINUTES = 30;
 
