@@ -48,6 +48,7 @@ public class PrimeFinder {
 		try {
 			br = new BufferedReader(new FileReader(file));
 		} catch (FileNotFoundException e) {
+			System.out.println("primes.txt not found, generating file now with the " + MainClass.TRIAL_DIVISION_PRIME_AMOUNT + " first primes.");
 			MainClass.makePrimeFile();
 			try {
 				br = new BufferedReader(new FileReader(file));

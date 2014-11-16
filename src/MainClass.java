@@ -11,7 +11,7 @@ public class MainClass {
 
 	private final int j = 0;
 
-	private static final int TRIAL_DIVISION_PRIME_AMOUNT = 10000000;
+	public static final int TRIAL_DIVISION_PRIME_AMOUNT = 10000000;
 
 	private final int POLLARD_MAX_MINUTES = 30;
 
@@ -51,18 +51,21 @@ public class MainClass {
 
 		Tuple tuple;
 		BigInteger temp = number;
+		String num;
 		for (int i = 1; i < 100; i++) {
 
+
 			temp = temp.add(BigInteger.ONE);
+			num = temp.toString();
 			tuple = factor(temp, primeFinder);
 
 			if (tuple == null) {
 				continue;
 			}
 
-			logger.logPerAddedNumber(tuple, 1);
+			logger.logPerAddedNumber(tuple, i);
 
-			System.out.println("ANSWER:");
+			System.out.println("Answer for " + num + ":");
 			ArrayList<String> als = tuple.getFactors();
 			for (int q = 0; q < als.size(); q++) {
 				System.out.print(" * " + als.get(q));
