@@ -212,7 +212,7 @@ public class MainClass {
 			 tuple.mergeCohesiveTuples(qsTuple);
 		}
 
-		// return tuple;
+		 return tuple;
 
 	}
 
