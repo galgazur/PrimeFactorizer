@@ -3,10 +3,7 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.math.BigInteger;
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Date;
 
 public class MainClass {
 
@@ -82,14 +79,14 @@ public class MainClass {
 			return tuple;
 		}
 
-		System.out.println("Initiating trial division");
 		// first try trial division
+		System.out.println("Initiating trial division");
 		SmallFactorizer smallFactors = new SmallFactorizer(primeFinder);
 		smallFactors.trialDivision(tuple);
 
-		System.out.println("Initiating pollard-rho");
 		// run pollard for POLLARD_MAX_MINUTES. If factor is found, run again.
 		// Repeat until no more factor is found
+		System.out.println("Initiating pollard-rho");
 		Pollard pollard = new Pollard();
 		boolean foundFactor = true;
 		while (!tuple.isDone() && foundFactor) {
@@ -118,7 +115,6 @@ public class MainClass {
 		String niklas = "9103090198";
 
 		new MainClass(andreas);
-		// makePrimeFile();
 
 	}
 
