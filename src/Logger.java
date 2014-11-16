@@ -67,20 +67,26 @@ public class Logger {
 
 	}
 
-	public void logPerAddedNumber(Tuple tuple, int added) {
+	public void logPerAddedNumber(boolean done, Tuple tuple, int added) {
 		// String[] rows = str.split("\n");
 
+		
+		
 		if (tuple.getFactors().size() == 0) {
 			return;
 		}
 
+		String prefix = "";
+		if (!done) {
+			prefix = "NOT_DONE-";
+		}
 		DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd_HH.mm.ss");
 		Date date = new Date();
 		String time = dateFormat.format(date);
 
 		PrintWriter out = null;
 		try {
-			out = new PrintWriter(new BufferedWriter(new FileWriter(time
+			out = new PrintWriter(new BufferedWriter(new FileWriter(prefix + time
 					+ "factorization-" + added + ".txt", true)));
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
