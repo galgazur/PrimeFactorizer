@@ -10,16 +10,20 @@ import java.util.concurrent.Executors;
 public class MainClass {
 
 	private final int ZERO_AMOUNT = 60;
-
 	private final int j = 0;
-
 	public static final int TRIAL_DIVISION_PRIME_AMOUNT = 10000000;
-
-	private final int POLLARD_MAX_MINUTES = 30;
-
+	private final int POLLARD_MAX_MINUTES = 45;
 	private final int THREAD_POOL_SIZE = 10;
-
+	
 	private static final String primesFile = "primes.txt";
+	
+	public static void main(String[] args) {
+		String andreas = "9204123476";
+		String niklas = "9103090198";
+
+		new MainClass(andreas);
+
+	}
 
 	public static void makePrimeFile() {
 		PrintWriter out = null;
@@ -138,12 +142,6 @@ public class MainClass {
 
 	}
 
-	public static void main(String[] args) {
-		String andreas = "9204123476";
-		String niklas = "9103090198";
 
-		new MainClass(andreas);
-
-	}
 
 }
