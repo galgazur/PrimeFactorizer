@@ -48,8 +48,13 @@ public class PrimeFinder {
 		try {
 			br = new BufferedReader(new FileReader(file));
 		} catch (FileNotFoundException e) {
-			System.out.println("primes.txt not found, generating file now with the " + MainClass.TRIAL_DIVISION_PRIME_AMOUNT + " first primes.");
+			long start = System.currentTimeMillis();
+			System.out.println("primes.txt not found, generating file now with the "
+					+ MainClass.TRIAL_DIVISION_PRIME_AMOUNT + " first primes.");
 			MainClass.makePrimeFile();
+			long end = System.currentTimeMillis() - start;
+			long minutes = end / (1000 * 60);
+			System.out.println("primes.txt was generated in " + minutes + " minutes");
 			try {
 				br = new BufferedReader(new FileReader(file));
 			} catch (FileNotFoundException e1) {
@@ -63,7 +68,8 @@ public class PrimeFinder {
 
 			String line;
 			int i = 0;
-			while ((line = br.readLine()) != null) {
+			while ((line = br.readLine()) != null && i < amount) {
+				
 				primes[i] = Long.parseLong(line);
 				i++;
 			}

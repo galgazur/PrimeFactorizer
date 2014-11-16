@@ -4,6 +4,8 @@ import java.io.IOException;
 import java.io.PrintWriter;
 import java.math.BigInteger;
 import java.util.ArrayList;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 
 public class MainClass {
 
@@ -11,9 +13,11 @@ public class MainClass {
 
 	private final int j = 0;
 
-	public static final int TRIAL_DIVISION_PRIME_AMOUNT = 10000000;
+	public static final int TRIAL_DIVISION_PRIME_AMOUNT = 1000000;
 
 	private final int POLLARD_MAX_MINUTES = 30;
+
+	private final int THREAD_POOL_SIZE = 10;
 
 	private static final String primesFile = "primes.txt";
 
@@ -52,16 +56,37 @@ public class MainClass {
 		Tuple tuple;
 		BigInteger temp = number;
 		String num;
+
+		ExecutorService pool = Executors.newFixedThreadPool(THREAD_POOL_SIZE);
+		FactorThread t;
 		for (int i = 1; i < 100; i++) {
-
-
 			temp = temp.add(BigInteger.ONE);
-			num = temp.toString();
-			tuple = factor(temp, primeFinder);
 
-			if (tuple == null) {
-				continue;
-			}
+			t = new FactorThread(temp, primeFinder, logger, i);
+
+			pool.submit(t);
+
+		}
+
+	}
+
+	private class FactorThread implements Runnable {
+		BigInteger number;
+		PrimeFinder primeFinder;
+		int i;
+		Logger logger;
+
+		FactorThread(BigInteger number, PrimeFinder primeFinder, Logger logger, int i) {
+			this.number = number;
+			this.primeFinder = primeFinder;
+			this.i = i;
+			this.logger = logger;
+		}
+
+		@Override
+		public void run() {
+			String num = number.toString();
+			Tuple tuple = factor(number, primeFinder);
 
 			logger.logPerAddedNumber(tuple, i);
 
