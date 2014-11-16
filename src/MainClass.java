@@ -14,153 +14,115 @@ public class MainClass {
 
 	private final int j = 0;
 
-	private int BASE = 1;
+	private static final int TRIAL_DIVISION_PRIME_AMOUNT = 10000000;
 
-	// private final int trialDivisionMax = 100000000;
-	private final int trialDivisionMax = Integer.MAX_VALUE;
+	private final int POLLARD_MAX_MINUTES = 30;
 
-//	private static void makePrimeFile() {
-//		PrintWriter out = null;
-//		try {
-//			out = new PrintWriter(new BufferedWriter(new FileWriter(
-//					"primes.txt", true)));
-//			
-//			PrimeFinder primeFinder = new PrimeFinder();
-//			
-//			primeFinder.findPrimes2(out);
-//
-////			long[] primes = primeFinder.getPrimes();
-//			
-//			out.close();
-//			
-////			for (int i = 0; i < primes.length; i++) {
-////				out.println(primes[i]);
-////				out.flush();
-////			}
-//
-//			
-//
-//		} catch (IOException e) {
-//
-//			e.printStackTrace();
-//		}
-//	}
-//
-//
-//	public MainClass() {
-//		String andreas = "9204123476";
-//		String niklas = "9103090198";
-//
-//		String andreasNumber = andreas;
-//		String niklasNumber = niklas;
-//
-//		for (int i = 0; i < ZERO_AMOUNT + j; i++) {
-//			andreas += "0";
-//			niklas += "0";
-//		}
-//
-//		BigInteger andreasBase = new BigInteger(andreas);
-//		BigInteger niklasBase = new BigInteger(niklas);
-//
-//		// QuadraticSieve qSieve = new QuadraticSieve();
-//
-//		BigInteger temp = null;
-//
-//		DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd_HH.mm.ss");
-//		Date date = new Date();
-//		// System.out.println(); // 2014/08/06 15:59:48
-//		String time = dateFormat.format(date);
-//
-////		temp = andreasBase.add(new BigInteger("2"));
-////		temp = new BigInteger("9103090198011");
-//
-//		// System.out.println(temp.toString());
-//
-//		PrimeFinder primeFinder = new PrimeFinder();
-//		primeFinder.findPrimes(trialDivisionMax);
-//
-//		// factor(temp, primeFinder);
-//
-//		Logger logger = new Logger();
-//
-//		PrintWriter out = null;
-//		try {
-//			out = new PrintWriter(new BufferedWriter(new FileWriter(
-//					"factorization-" + time + ".txt", true)));
-//
-//			if (BASE == 0) {
-//				out.println(andreasNumber + " " + j);
-//			} else {
-//				out.println(niklasNumber + " " + j);
-//			}
-//
-//			out.flush();
-//
-//		} catch (IOException e) {
-//
-//			e.printStackTrace();
-//		}
-//
-//
-//		Tuple tuple;
-//		for (int i = 0; i < 100; i++) {
-//			temp = temp.add(BigInteger.ONE);
-//			tuple = factor(temp, primeFinder);
-//			logger.log(tuple, out);
-//			out.flush();
-//		}
-//
-//
-//		out.close();
-//	}
-//
-//	private Tuple factor(BigInteger N, PrimeFinder primeFinder) {
-//		Tuple tuple = new Tuple(N, new ArrayList<String>(), primeFinder);
-//
-//		if (tuple.isDone()) {
-//			// tuple.printFactors();
-//			return tuple;
-//		}
-//
-//		// if (tuple.isDone()) {
-//		// tuple.printFactors();
-//		// }
-//
-//		return tuple;
-//
-//	}
-//
-//	public static void main(String[] args) {
-//		new MainClass();
-////		makePrimeFile();
-//		
-//
-//	}
-	
-	
-	public MainClass() {
-		for (int i = 0; i < (10*9*8); i++) {
-			QuadraticSieve.makeValidCombo2(i, 3, 10);
+	private static final String primesFile = "primes.txt";
+
+	public static void makePrimeFile() {
+		PrintWriter out = null;
+		try {
+			out = new PrintWriter(new BufferedWriter(new FileWriter(primesFile, true)));
+
+			PrimeFinder primeFinder = new PrimeFinder();
+
+			primeFinder.findPrimes2(out, TRIAL_DIVISION_PRIME_AMOUNT);
+
+			out.close();
+
+		} catch (IOException e) {
+
+			e.printStackTrace();
 		}
-		
-		
-		String num = "9103090198000000000000000000000000000000000000000000000000000000000001";
-		System.out.println("Start Factorizing: " + num);
-		PrimeFinder p = new PrimeFinder();
-		p.findPrimes(100000);
-		QSHelper qs = new QSHelper(p);
-		Tuple s = qs.factorize(new BigInteger(num));
-		System.out.println("ANSWER:");
-		ArrayList<String> als = s.getFactors();
-		for (int i = 0; i < als.size(); i++) {
-			System.out.print(" * " + als.get(i));
+	}
+
+	public MainClass(String personNumber) {
+		// define person number
+		// String personNumber = "9204123476";
+		// String personNumber = "9103090198";
+
+		// construct bigInteger with trailing zeros
+		String bigNum = personNumber;
+		for (int i = 0; i < ZERO_AMOUNT + j; i++) {
+			bigNum += "0";
 		}
+		BigInteger number = new BigInteger(bigNum);
+
+		// read primes from file
+		PrimeFinder primeFinder = new PrimeFinder();
+		primeFinder.getPrimesFromFile(primesFile, TRIAL_DIVISION_PRIME_AMOUNT);
+
+		Logger logger = new Logger();
+
+		Tuple tuple;
+		BigInteger temp = number;
+		for (int i = 1; i < 100; i++) {
+
+			temp = temp.add(BigInteger.ONE);
+			tuple = factor(temp, primeFinder);
+
+			if (tuple == null) {
+				continue;
+			}
+
+			logger.logPerAddedNumber(tuple, 1);
+
+			System.out.println("ANSWER:");
+			ArrayList<String> als = tuple.getFactors();
+			for (int q = 0; q < als.size(); q++) {
+				System.out.print(" * " + als.get(q));
+			}
+
+		}
+
+	}
+
+	private Tuple factor(BigInteger N, PrimeFinder primeFinder) {
+		Tuple tuple = new Tuple(N, new ArrayList<String>(), primeFinder);
+
+		if (tuple.isDone()) {
+			return tuple;
+		}
+
+		System.out.println("Initiating trial division");
+		// first try trial division
+		SmallFactorizer smallFactors = new SmallFactorizer(primeFinder);
+		smallFactors.trialDivision(tuple);
+
+		System.out.println("Initiating pollard-rho");
+		// run pollard for POLLARD_MAX_MINUTES. If factor is found, run again.
+		// Repeat until no more factor is found
+		Pollard pollard = new Pollard();
+		boolean foundFactor = true;
+		while (!tuple.isDone() && foundFactor) {
+
+			foundFactor = pollard.pollardRho(tuple, POLLARD_MAX_MINUTES);
+
+		}
+
+		// return if done or run QS otherwise
+		if (tuple.isDone()) {
+			return tuple;
+		} else {
+			System.out.println("Initiating quadratic sieve");
+			QSHelper qsHelper = new QSHelper(primeFinder);
+			Tuple qsTuple = qsHelper.factorize(tuple.getNumber());
+
+			tuple.mergeCohesiveTuples(qsTuple);
+		}
+
+		return tuple;
+
 	}
 
 	public static void main(String[] args) {
-		new MainClass();
+		String andreas = "9204123476";
+		String niklas = "9103090198";
+
+		new MainClass(andreas);
+		// makePrimeFile();
 
 	}
-
 
 }

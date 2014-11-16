@@ -1,3 +1,7 @@
+import java.io.BufferedReader;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
+import java.io.IOException;
 import java.io.PrintWriter;
 import java.math.BigInteger;
 import java.util.ArrayList;
@@ -36,33 +40,59 @@ public class PrimeFinder {
 		}
 
 	}
-	
+
+	public void getPrimesFromFile(String file, int amount) {
+		long[] primes = new long[amount];
+
+		BufferedReader br = null;
+		try {
+			br = new BufferedReader(new FileReader(file));
+		} catch (FileNotFoundException e) {
+			MainClass.makePrimeFile();
+			try {
+				br = new BufferedReader(new FileReader(file));
+			} catch (FileNotFoundException e1) {
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
+			}
+		}
+
+		try {
+			br = new BufferedReader(new FileReader(file));
+
+			String line;
+			int i = 0;
+			while ((line = br.readLine()) != null) {
+				primes[i] = Long.parseLong(line);
+				i++;
+			}
+
+			br.close();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+
+		this.primes = primes;
+	}
+
 	/*
 	 * Used to build a file with the Integer.MAX_VALUE first primes
 	 */
-	public void findPrimes2(PrintWriter out) {
-		
-			int primes = 0;
-			
-//			long[] primes = new long[Integer.MAX_VALUE];
+	public void findPrimes2(PrintWriter out, int amount) {
 
-			for (long i = 2; i <= Long.MAX_VALUE; i++) {
-				if (primes == Integer.MAX_VALUE) {
-					break;
-				}
-				if (isPrime(i)) {
-					
-//					primes[primeIndex] = i;
-					out.println(i);
-//					out.flush();
-					primes++;
-				}
+		int primeAmount = 0;
+		for (long i = 2; i <= Integer.MAX_VALUE; i++) {
+			if (primeAmount == amount) {
+				break;
 			}
+			if (isPrime(i)) {
+				out.println(i);
+				primeAmount++;
 
-//			return primes;
-
+			}
 		}
 
+	}
 
 	/**
 	 * return stored primes list
@@ -74,8 +104,7 @@ public class PrimeFinder {
 	}
 
 	public boolean isPrime(BigInteger primeCandidate) {
-		if (primeCandidate
-				.compareTo(new BigInteger("" + PRIME_GUESS_THRESHOLD)) > 0) {
+		if (primeCandidate.compareTo(new BigInteger("" + PRIME_GUESS_THRESHOLD)) > 0) {
 			return isProbablePrime(primeCandidate);
 		} else {
 			return isDefinitePrime(primeCandidate);
@@ -95,8 +124,7 @@ public class PrimeFinder {
 	private boolean isDefinitePrime(BigInteger primeCandidate) {
 		// trial division
 		for (long i = 2; i <= PRIME_GUESS_THRESHOLD; i++) {
-			BigInteger rest = primeCandidate.divideAndRemainder(new BigInteger(
-					"" + i))[1];
+			BigInteger rest = primeCandidate.divideAndRemainder(new BigInteger("" + i))[1];
 			if (rest.compareTo(BigInteger.ZERO) == 0) {
 				return false;
 			}

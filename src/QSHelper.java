@@ -87,4 +87,6 @@ public class QSHelper {
 		
 		return new Tuple(BigInteger.ONE, (extractedPrimes), primeFinder);
 	}
+	
+
 }

@@ -17,7 +17,7 @@ public class Pollard {
 	// new Pollard();
 	// }
 
-	public Tuple pollardRho(Tuple tuple) {
+	public boolean pollardRho(Tuple tuple, int minutes) {
 		BigInteger N = tuple.getNumber();
 		BigInteger ret = null;
 
@@ -26,8 +26,15 @@ public class Pollard {
 		BigInteger fx = null;
 		BigInteger gcd = null;
 
+		long start = System.currentTimeMillis();
+		long end = start + minutes*60*1000;
+		long currentTime;
 		while (true) {
-
+			// if took too long
+			if ((currentTime = System.currentTimeMillis()) >= end) {
+				System.out.println("Pollard-Rho timed out");
+				return false;
+			}
 			fx = Calc.square(X).add(ONE).mod(N);
 
 			gcd = Calc.gcd(fx.subtract(X), N);
@@ -51,7 +58,7 @@ public class Pollard {
 
 		tuple.addFactor(ret);
 
-		return tuple;
+		return true;
 	}
 
 }

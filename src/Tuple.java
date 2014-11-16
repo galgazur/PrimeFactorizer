@@ -59,4 +59,9 @@ public class Tuple {
 			return false;
 		}
 	}
+	
+	public void mergeCohesiveTuples(Tuple newTuple) {
+		number = newTuple.getNumber();
+		factors.addAll(newTuple.getFactors());
+	}
 }
