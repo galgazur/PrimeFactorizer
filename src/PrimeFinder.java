@@ -5,14 +5,15 @@ import java.io.IOException;
 import java.io.PrintWriter;
 import java.math.BigInteger;
 import java.util.ArrayList;
+import java.util.Random;
 
 public class PrimeFinder {
 
-	private static final long PRIME_GUESS_THRESHOLD = 1;
-	private long[] primes;
-	private long previousbound = 2;
+	private static final long	PRIME_GUESS_THRESHOLD	= 1;
+	private long[]				primes;
+	private long				previousbound			= 2;
 
-	private final int CERTAINTY = 30;
+	private final int			CERTAINTY				= 30;
 
 	/**
 	 * Find primes smaller than this bound
@@ -69,7 +70,7 @@ public class PrimeFinder {
 			String line;
 			int i = 0;
 			while ((line = br.readLine()) != null && i < amount) {
-				
+
 				primes[i] = Long.parseLong(line);
 				i++;
 			}
@@ -125,7 +126,43 @@ public class PrimeFinder {
 	}
 
 	private boolean isProbablePrime(BigInteger N) {
-		return N.isProbablePrime(CERTAINTY);
+		return millerRabin(N);
+	}
+
+	private boolean millerRabin(BigInteger N) {
+		if (N.mod(new BigInteger("2")).equals(BigInteger.ZERO)) {
+			return false;
+		}
+		Random rnd = new Random();
+		for (int i = 0; i < CERTAINTY; i++) {
+			BigInteger a;
+			BigInteger N_1 = N.subtract(BigInteger.ONE);
+			do {
+				a = new BigInteger(N.bitLength(), rnd);
+			} while (a.equals(BigInteger.ZERO) || a.equals(BigInteger.ONE) || a.compareTo(N_1) >= 0);
+
+			boolean pass = false;
+			BigInteger d = N_1;
+			int s = d.getLowestSetBit();
+			d = d.shiftRight(s);
+			BigInteger x = a.modPow(d, N);
+			if (x.equals(BigInteger.ONE)) {
+				pass = true;
+			}
+			for (int j = 0; j < s - 1; j++) {
+				if (x.equals(N_1)) {
+					pass = true;
+				}
+				x = x.multiply(x).mod(N);
+			}
+			if (x.equals(N_1)) {
+				pass = true;
+			}
+			if (!pass) {
+				return false;
+			}
+		}
+		return true;
 	}
 
 	private boolean isDefinitePrime(BigInteger primeCandidate) {
