@@ -12,7 +12,7 @@ public class MainClass {
 	private final int ZERO_AMOUNT = 60;
 	private final int j = 0;
 	public static final int TRIAL_DIVISION_PRIME_AMOUNT = 100000000;
-	private final int POLLARD_MAX_MINUTES = 6 * 60;
+	private final int POLLARD_MAX_MINUTES = 60*60;
 	private final int THREAD_POOL_SIZE = 10;
 
 	private static final String primesFile = "primes.txt";
@@ -21,7 +21,7 @@ public class MainClass {
 		String andreas = "9204123476";
 		String niklas = "9103090198";
 
-		new MainClass(niklas);
+		new MainClass(andreas);
 
 	}
 
@@ -64,59 +64,59 @@ public class MainClass {
 		ExecutorService pool = Executors.newFixedThreadPool(THREAD_POOL_SIZE);
 		FactorThread t;
 //
-//		ArrayList<Integer> ints = new ArrayList<Integer>();
-//		ints.add(18);
-//		ints.add(19);
-//		ints.add(23);
-//		ints.add(24);
-//		ints.add(25);
-//		ints.add(28);
-//		ints.add(36);
-//		ints.add(41);
-//		ints.add(43);
-//		ints.add(44);
-//		ints.add(47);
-//		ints.add(50);
-//		ints.add(53);
-//		ints.add(56);
-//		ints.add(63);
-//		ints.add(68);
-//		ints.add(69);
-//		ints.add(76);
-//		ints.add(85);
-//		ints.add(86);
-//		ints.add(87);
-//		ints.add(95);
-//		ints.add(96);
-//		ints.add(97);
-		
 		ArrayList<Integer> ints = new ArrayList<Integer>();
-		ints.add(9);
-		ints.add(13);
+		ints.add(18);
 		ints.add(19);
-		ints.add(22);
+		ints.add(23);
 		ints.add(24);
-		ints.add(33);
-		ints.add(35);
+		ints.add(25);
+		ints.add(28);
 		ints.add(36);
-		ints.add(37);
-		ints.add(40);
-		ints.add(46);
-		ints.add(58);
-		ints.add(62);
+		ints.add(41);
+		ints.add(43);
+		ints.add(44);
+		ints.add(47);
+		ints.add(50);
+		ints.add(53);
+		ints.add(56);
 		ints.add(63);
-		ints.add(70);
-		ints.add(72);
-		ints.add(74);
-		ints.add(77);
-		ints.add(78);
-		ints.add(83);
-		ints.add(84);
+		ints.add(68);
+		ints.add(69);
+		ints.add(76);
+		ints.add(85);
 		ints.add(86);
-		ints.add(88);
-		ints.add(89);
+		ints.add(87);
+		ints.add(95);
 		ints.add(96);
 		ints.add(97);
+		
+//		ArrayList<Integer> ints = new ArrayList<Integer>();
+//		ints.add(9);
+//		ints.add(13);
+//		ints.add(19);
+//		ints.add(22);
+//		ints.add(24);
+//		ints.add(33);
+//		ints.add(35);
+//		ints.add(36);
+//		ints.add(37);
+//		ints.add(40);
+//		ints.add(46);
+//		ints.add(58);
+//		ints.add(62);
+//		ints.add(63);
+//		ints.add(70);
+//		ints.add(72);
+//		ints.add(74);
+//		ints.add(77);
+//		ints.add(78);
+//		ints.add(83);
+//		ints.add(84);
+//		ints.add(86);
+//		ints.add(88);
+//		ints.add(89);
+//		ints.add(96);
+//		ints.add(97);
 		
 		for (int i = 1; i < 100; i++) {
 			temp = temp.add(BigInteger.ONE);
